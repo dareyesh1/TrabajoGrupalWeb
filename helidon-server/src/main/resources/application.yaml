@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+cors:
+  enabled: true
+  allow-origins:
+    - "http://localhost:5173"
+
+db:
+  source: jdbc
+
+  connection:
+    url: jdbc:postgresql://localhost:5432/dbposts
+    username: postgres
+    password: labcom,2015
+
+    poolName: HelidonPool
+    maximumPoolSize: 10
+    minimumIdle: 2
+    connectionTimeout: 30000
