@@ -26,7 +26,12 @@ dependencies {
     implementation("io.helidon.dbclient:helidon-dbclient-hikari")
 
 
+    //Para leer JSON
+    implementation("io.helidon.http.media:helidon-http-media-jackson")
+
     implementation("com.fasterxml.jackson.core:jackson-databind")
+
+
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.slf4j:slf4j-jdk14")
