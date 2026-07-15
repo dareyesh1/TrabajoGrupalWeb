@@ -51,7 +51,6 @@ public class UserRepository implements Repository<User> {
         dbClient.execute()
                 .createInsert("""
                 INSERT INTO users(
-                    id,
                     name,
                     username,
                     email,
@@ -68,7 +67,6 @@ public class UserRepository implements Repository<User> {
                     company_bs
                 )
                 VALUES(
-                    :id,
                     :name,
                     :username,
                     :email,
@@ -85,7 +83,6 @@ public class UserRepository implements Repository<User> {
                     :bs
                 )
                 """)
-                .addParam("id", user.getId())
                 .addParam("name", user.getName())
                 .addParam("username", user.getUsername())
                 .addParam("email", user.getEmail())
