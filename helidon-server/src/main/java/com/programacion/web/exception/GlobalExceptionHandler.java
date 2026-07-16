@@ -1,5 +1,6 @@
 package com.programacion.web.exception;
 
+import com.programacion.web.exception.dto.ApiErrorDto;
 import io.helidon.http.Status;
 import io.helidon.webserver.http.ServerResponse;
 
@@ -13,11 +14,11 @@ public final class GlobalExceptionHandler {
     public void handle(Exception exception,
                               ServerResponse response) {
 
-        ApiError error;
+        ApiErrorDto error;
 
         if (exception instanceof ResourceNotFoundException e) {
 
-            error = ApiError.builder()
+            error = ApiErrorDto.builder()
                     .status(404)
                     .error("Not Found")
                     .message(e.getMessage())
@@ -32,7 +33,7 @@ public final class GlobalExceptionHandler {
 
         if (exception instanceof BadRequestException e) {
 
-            error = ApiError.builder()
+            error = ApiErrorDto.builder()
                     .status(400)
                     .error("Bad Request")
                     .message(e.getMessage())
@@ -47,7 +48,7 @@ public final class GlobalExceptionHandler {
 
         if (exception instanceof ConflictException e) {
 
-            error = ApiError.builder()
+            error = ApiErrorDto.builder()
                     .status(409)
                     .error("Conflict")
                     .message(e.getMessage())
@@ -60,7 +61,7 @@ public final class GlobalExceptionHandler {
             return;
         }
 
-        error = ApiError.builder()
+        error = ApiErrorDto.builder()
                 .status(500)
                 .error("Internal Server Error")
                 .message(exception.getMessage())
