@@ -15,7 +15,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add"; // Asegúrate de tener este icono
 
 function Posts() {
-    // 1. Extraemos el userId de la URL (si existe)
     const { userId } = useParams<{ userId?: string }>();
 
     const [posts, setPosts] = useState<Post[]>([]);
@@ -24,8 +23,6 @@ function Posts() {
     useEffect(() => {
         setLoading(true);
 
-        // 2. Determinamos el endpoint dinámicamente
-        // Nota: Dependiendo de tu backend, podría ser `/api/posts?userId=${userId}`
         const endpoint = userId
             ? `/api/users/${userId}/posts`
             : "/api/posts";
@@ -35,8 +32,7 @@ function Posts() {
             .then((response) => setPosts(response.data))
             .catch((error) => alert("Error: " + error))
             .finally(() => setLoading(false));
-    }, [userId]); // Volver a ejecutar si el userId cambia
-
+    }, [userId]);
     const handleDelete = (id: number) => {
         axios
             .delete(`/api/posts/${id}`)
@@ -48,13 +44,11 @@ function Posts() {
 
     return (
         <Container sx={{ mt: 4, mb: 4 }}>
-            {/* Contenedor flexible para el Título y el Botón */}
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
                 <Typography variant="h4">
                     {userId ? `Posts del Usuario (ID: ${userId})` : "Todos los Posts"}
                 </Typography>
 
-                {/* 3. Renderizado condicional del botón: Solo aparece si hay userId */}
                 {userId && (
                     <Button
                         variant="contained"

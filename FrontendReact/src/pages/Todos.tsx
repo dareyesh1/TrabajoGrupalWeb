@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Todo } from "../models/Todo";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom"; // Importamos useParams
+import { useParams, Link } from "react-router-dom";
 import {
     Container,
     Typography,
@@ -14,10 +14,8 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add"; // Importamos el icono de agregar
-
+import AddIcon from "@mui/icons-material/Add";
 function Todos() {
-    // 1. Extraemos el userId de la URL (si existe)
     const { userId } = useParams<{ userId?: string }>();
 
     const [todos, setTodos] = useState<Todo[]>([]);
@@ -36,8 +34,7 @@ function Todos() {
             .then((response) => setTodos(response.data))
             .catch((error) => alert("Error: " + error))
             .finally(() => setLoading(false));
-    }, [userId]); // Dependencia actualizada para reaccionar a cambios en la URL
-
+    }, [userId]);
     const handleToggleComplete = (id: number) => {
         const todo = todos.find((t) => t.id === id);
         if (todo) {
@@ -64,14 +61,11 @@ function Todos() {
 
     return (
         <Container sx={{ mt: 4, mb: 4 }}>
-            {/* Contenedor flexible para el Título y el Botón de Agregar */}
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
                 <Typography variant="h4">
-                    {/* Título dinámico */}
                     {userId ? `Tareas del Usuario (ID: ${userId})` : "Todas las Tareas"}
                 </Typography>
 
-                {/* 3. Renderizado condicional del botón de agregar */}
                 {userId && (
                     <Button
                         variant="contained"

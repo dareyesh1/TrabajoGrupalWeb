@@ -6,6 +6,7 @@ import com.programacion.web.handler.*;
 import com.programacion.web.repository.impl.*;
 import com.programacion.web.services.impl.*;
 import io.helidon.config.Config;
+import io.helidon.config.ConfigSources;
 import io.helidon.dbclient.DbClient;
 import io.helidon.webserver.WebServer;
 
@@ -13,8 +14,11 @@ public class HelidonServerMain {
 
     public static void main(String[] args) {
 
-        //Esto es la configuracion del servidor
-        Config config = Config.create();
+        //configuracion EXTERNA
+        Config config = Config.builder()
+                .addSource(ConfigSources.file("./application.yaml").optional())
+                .addSource(ConfigSources.classpath("application.yaml").optional())
+                .build();
 
         int port = config.get("server.port")
                 .asInt()

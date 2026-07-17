@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Album } from "../models/Album";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom"; // Importamos useParams
+import { useParams, Link } from "react-router-dom";
 import {
     Container,
     Typography,
@@ -12,10 +12,9 @@ import {
     CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add"; // Importamos el icono de agregar
+import AddIcon from "@mui/icons-material/Add";
 
 function Albums() {
-    // 1. Extraemos el userId de la URL (si existe)
     const { userId } = useParams<{ userId?: string }>();
 
     const [albums, setAlbums] = useState<Album[]>([]);
@@ -24,7 +23,6 @@ function Albums() {
     useEffect(() => {
         setLoading(true);
 
-        // 2. Determinamos el endpoint dinámicamente
         const endpoint = userId
             ? `/api/users/${userId}/albums`
             : "/api/albums";
@@ -34,7 +32,7 @@ function Albums() {
             .then((response) => setAlbums(response.data))
             .catch((error) => alert("Error: " + error))
             .finally(() => setLoading(false));
-    }, [userId]); // El useEffect depende del userId
+    }, [userId]);
 
     const handleDelete = (id: number) => {
         axios
@@ -54,7 +52,7 @@ function Albums() {
                     {userId ? `Álbumes del Usuario (ID: ${userId})` : "Todos los Álbumes"}
                 </Typography>
 
-                {/* 3. Renderizado condicional del botón de agregar */}
+
                 {userId && (
                     <Button
                         variant="contained"

@@ -54,12 +54,7 @@ function Users(){
 
                 </Typography>
 
-                {/* <Button variant="contained"
-                    color="primary"
-                    onClick={fetchPosts}
-                >
-                    {loading ? "Cargando..." : "Cargar Datos"}
-                </Button> */}
+
 
                 <Table sx={{mt:2}}>
                     <TableHead>

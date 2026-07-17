@@ -15,7 +15,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 
 function Comments() {
-    // 1. Extraemos el postId de la URL (si estamos viendo los comentarios de un post)
     const { postId } = useParams<{ postId?: string }>();
 
     const [comments, setComments] = useState<Comment[]>([]);
@@ -24,7 +23,6 @@ function Comments() {
     useEffect(() => {
         setLoading(true);
 
-        // 2. Determinamos el endpoint dinámicamente
         const endpoint = postId
             ? `/api/posts/${postId}/comments`
             : "/api/comments";
@@ -52,7 +50,6 @@ function Comments() {
                     {postId ? `Comentarios del Post (ID: ${postId})` : "Todos los Comentarios"}
                 </Typography>
 
-                {/* Renderizado condicional del botón de agregar */}
                 {postId && (
                     <Button
                         variant="contained"

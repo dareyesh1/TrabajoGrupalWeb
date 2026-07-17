@@ -16,7 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 
 function Photos() {
-    // 1. Extraemos el albumId de la URL
+
     const { albumId } = useParams<{ albumId?: string }>();
 
     const [photos, setPhotos] = useState<Photo[]>([]);
@@ -25,7 +25,7 @@ function Photos() {
     useEffect(() => {
         setLoading(true);
 
-        // 2. Endpoint dinámico basado en la URL
+
         const endpoint = albumId
             ? `/api/albums/${albumId}/photos`
             : "/api/photos";
@@ -48,7 +48,6 @@ function Photos() {
 
     return (
         <Container sx={{ mt: 4, mb: 4 }}>
-            {/* CABECERA: Título y Botón de Agregar dinámicos */}
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
                 <Typography variant="h4">
                     {albumId ? `Fotos del Álbum (ID: ${albumId})` : "Todas las Fotos"}
@@ -74,11 +73,9 @@ function Photos() {
             ) : (
                 <Box sx={{
                     display: "grid",
-                    // Responsivo: 1 columna en celulares, 2 en tablets, 3 en pantallas medianas/grandes
                     gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
                     gap: 3
                 }}>
-                    {/* CUADRÍCULA CORREGIDA: Iteramos sobre las fotos */}
                     {photos.map((photo) => (
                         <Card key={photo.id} sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 
