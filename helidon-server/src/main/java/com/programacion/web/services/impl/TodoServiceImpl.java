@@ -35,6 +35,12 @@ public class TodoServiceImpl implements Service<Todo> {
                                 "No existe la tarea con id " + id));
     }
 
+    public List<Todo> findByUserId(Integer id) {
+
+        return repository.findByUserId(id)
+                ;
+    }
+
     @Override
     public Todo save(Todo todo) {
 

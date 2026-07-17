@@ -2,22 +2,41 @@ server:
   port: 8080
 
 cors:
-  enabled: true
-  allow-origins:
-    - "http://localhost:5173"
+  paths:
+    - "path-pattern": "/api"
+      "allow-origins": ["http://localhost:5173", "https://localhost:5173", "http://127.0.0.1:5173"]
+      "allow-methods": ["PUT", "DELETE", "GET", "POST", "OPTIONS"]
+      "allow-headers": ["Content-Type", "Authorization"]
+    - "path-pattern": "/api/users"
+      "allow-origins": ["http://localhost:5173", "https://localhost:5173", "http://127.0.0.1:5173"]
+      "allow-methods": ["GET", "HEAD", "OPTIONS", "POST"]
+      "allow-headers": ["Content-Type", "Authorization"]
+    - "path-pattern": "/api/comments"
+    - "allow-origins": [ "http://localhost:5173", "https://localhost:5173", "http://127.0.0.1:5173" ]
+    - "allow-methods": [ "GET", "HEAD", "OPTIONS", "POST" ]
+    - "allow-headers": [ "Content-Type", "Authorization" ]
 
+
+logging:
+  level:
+    io.helidon.dbclient: TRACE
+    org.postgresql: TRACE
+    com.zaxxer.hikari: DEBUG
 db:
+  statements:
+    log-enable: true
   source: jdbc
 
   connection:
-    url: jdbc:postgresql://localhost:5432/dbposts
-    username: postgres
-    password: labcom,2015
+    url: jdbc:postgresql://localhost:5432/posts
+    username: DBA3
+    password: 71219500
 
     poolName: HelidonPool
     maximumPoolSize: 10
     minimumIdle: 2
     connectionTimeout: 30000
+
 
   logging:
     level: FINEST

@@ -1,9 +1,6 @@
 package com.programacion.web.repository.impl;
 
-import com.programacion.web.db.Address;
-import com.programacion.web.db.Company;
-import com.programacion.web.db.Geo;
-import com.programacion.web.db.User;
+import com.programacion.web.db.*;
 import com.programacion.web.repository.interf.Repository;
 import io.helidon.dbclient.DbClient;
 import io.helidon.dbclient.DbRow;
@@ -30,6 +27,8 @@ public class UserRepository implements Repository<User> {
                 .map(this::mapRowToUser)
                 .toList();
     }
+
+
 
     @Override
     public Optional<User> findById(Integer id) {

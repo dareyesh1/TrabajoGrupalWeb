@@ -21,6 +21,11 @@ public class PhotoServiceImpl implements Service<Photo> {
         this.albumRepository = albumRepository;
     }
 
+
+    public List<Photo> findByAlbumId(Integer albumId) {
+        return repository.findByAlbumId(albumId);
+    }
+
     @Override
     public List<Photo> findAll() {
         return repository.findAll();

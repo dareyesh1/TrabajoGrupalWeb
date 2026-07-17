@@ -46,6 +46,22 @@ public class AlbumRepository implements Repository<Album> {
                 .findFirst();
     }
 
+    public List<Album> findByUserId(Integer id) {
+
+        return dbClient.execute()
+                .createQuery("""
+                        SELECT *
+                        FROM albums
+                        WHERE user_id = :id
+                        ORDER BY id
+                        """)
+                .addParam("id", id)
+                .execute()
+
+                .map(this::mapRowToAlbum)
+                .toList();
+    }
+
     @Override
     public Album save(Album album) {
 

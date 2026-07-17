@@ -17,6 +17,8 @@ public class PhotoRepository implements Repository<Photo> {
         this.dbClient = dbClient;
     }
 
+
+
     @Override
     public List<Photo> findAll() {
 

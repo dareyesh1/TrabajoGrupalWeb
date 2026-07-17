@@ -8,6 +8,7 @@ import com.programacion.web.repository.impl.UserRepository;
 import com.programacion.web.services.interf.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PostServiceImpl implements Service<Post> {
 
@@ -35,6 +36,15 @@ public class PostServiceImpl implements Service<Post> {
                                 "No existe el post con id " + id));
     }
 
+
+    public List<Post> findByUserId(Integer id) {
+
+        return repository.findByUserId(id);
+
+    }
+
+
+
     @Override
     public Post save(Post post) {
 
@@ -54,6 +64,7 @@ public class PostServiceImpl implements Service<Post> {
 
         return repository.save(post);
     }
+
 
     @Override
     public Post update(Integer id, Post post) {

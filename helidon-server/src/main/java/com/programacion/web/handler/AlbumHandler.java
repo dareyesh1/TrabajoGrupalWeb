@@ -3,6 +3,7 @@ package com.programacion.web.handler;
 import com.programacion.web.db.Album;
 import com.programacion.web.exception.GlobalExceptionHandler;
 import com.programacion.web.services.impl.AlbumServiceImpl;
+import com.programacion.web.services.impl.PhotoServiceImpl;
 import com.programacion.web.services.interf.Service;
 import io.helidon.http.Status;
 import io.helidon.webserver.http.HttpRules;
@@ -13,13 +14,15 @@ import io.helidon.webserver.http.ServerResponse;
 public class AlbumHandler implements HttpService {
 
     private final Service<Album> albumService;
+    private final PhotoServiceImpl photoService;
     private final GlobalExceptionHandler globalExceptionHandler;
 
-    public AlbumHandler(Service<Album> albumService,
+    public AlbumHandler(PhotoServiceImpl photoService,Service<Album> albumService,
                         GlobalExceptionHandler globalExceptionHandler) {
 
         this.albumService = albumService;
         this.globalExceptionHandler = globalExceptionHandler;
+        this.photoService = photoService;
     }
 
     @Override
@@ -27,6 +30,7 @@ public class AlbumHandler implements HttpService {
 
         rules.get("/", this::findAll);
         rules.get("/{id}", this::findById);
+        rules.get("/{id}/photos", this::findByAlbumId);
         rules.post("/", this::save);
         rules.put("/{id}", this::update);
         rules.delete("/{id}", this::delete);
@@ -48,6 +52,16 @@ public class AlbumHandler implements HttpService {
             Integer id = getId(request);
 
             response.send(albumService.findById(id));
+        });
+    }
+    private void findByAlbumId(ServerRequest request,
+                          ServerResponse response) {
+
+        execute(response, () -> {
+
+            Integer id = getId(request);
+
+            response.send(photoService.findByAlbumId(id));
         });
     }
 

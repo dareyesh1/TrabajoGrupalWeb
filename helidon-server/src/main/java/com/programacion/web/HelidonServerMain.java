@@ -28,32 +28,38 @@ public class HelidonServerMain {
         //Para User
         UserRepository userRepository = new UserRepository(dbConfig);
         UserServiceImpl userService = new UserServiceImpl(userRepository);
-        UserHandler userHandler = new UserHandler(userService, exceptionHandler);
 
         //Para Album
         AlbumRepository albumRepository = new AlbumRepository(dbConfig);
         AlbumServiceImpl albumService = new AlbumServiceImpl(albumRepository, userRepository);
-        AlbumHandler albumHandler = new AlbumHandler(albumService, exceptionHandler);
 
         //Para Photo
         PhotoRepository photoRepository = new PhotoRepository(dbConfig);
         PhotoServiceImpl photoService = new PhotoServiceImpl(photoRepository, albumRepository);
         PhotoHandler photoHandler = new PhotoHandler(photoService, exceptionHandler);
 
+        AlbumHandler albumHandler = new AlbumHandler(photoService,albumService, exceptionHandler);
+
         //Para Post
         PostRepository postRepository = new PostRepository(dbConfig);
         PostServiceImpl postService = new PostServiceImpl(postRepository, userRepository);
-        PostHandler postHandler = new PostHandler(postService, exceptionHandler);
 
         //Para Comment
         CommentRepository commentRepository = new CommentRepository(dbConfig);
         CommentServiceImpl commentService = new CommentServiceImpl(commentRepository, postRepository);
         CommentHandler commentHandler = new CommentHandler(commentService, exceptionHandler);
 
+        PostHandler postHandler = new PostHandler(commentService,postService, exceptionHandler);
+
+
         //Para Todo
         TodoRepository todoRepository = new TodoRepository(dbConfig);
         TodoServiceImpl todoService = new TodoServiceImpl(todoRepository, userRepository);
         TodoHandler todoHandler = new TodoHandler(todoService, exceptionHandler);
+
+    //user
+
+        UserHandler userHandler = new UserHandler( todoService,albumService,postService,userService, exceptionHandler);
 
         //Esto es como el MyApplication
         //Se registran los endpoints de las entidades

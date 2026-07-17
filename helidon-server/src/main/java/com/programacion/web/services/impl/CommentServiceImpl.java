@@ -35,6 +35,12 @@ public class CommentServiceImpl implements Service<Comment> {
                                 "No existe el comentario con id " + id));
     }
 
+    public List<Comment> findByPostId(Integer id) {
+
+        return repository.findByPostId(id);
+
+    }
+
     @Override
     public Comment save(Comment comment) {
 

@@ -1,6 +1,7 @@
 package com.programacion.web.services.impl;
 
 import com.programacion.web.db.Album;
+import com.programacion.web.db.Post;
 import com.programacion.web.exception.ConflictException;
 import com.programacion.web.exception.ResourceNotFoundException;
 import com.programacion.web.repository.impl.AlbumRepository;
@@ -8,6 +9,7 @@ import com.programacion.web.repository.impl.UserRepository;
 import com.programacion.web.services.interf.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AlbumServiceImpl implements Service<Album> {
 
@@ -34,6 +36,14 @@ public class AlbumServiceImpl implements Service<Album> {
                         new ResourceNotFoundException(
                                 "No existe el álbum con id " + id));
     }
+
+    public List<Album> findByUserId(Integer id) {
+
+        return repository.findByUserId(id);
+
+    }
+
+
 
     @Override
     public Album save(Album album) {
