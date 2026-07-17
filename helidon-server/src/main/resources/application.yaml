@@ -1,42 +1,77 @@
+# ========================================================================
+# CONFIGURACIÓN DEL SERVIDOR WEB
+# ========================================================================
 server:
+  # Define el puerto por defecto en el que el servidor backend escuchará las peticiones.
+  # En este caso, el servidor se levantará en http://localhost:8080
   port: 8080
 
+# ========================================================================
+# CONFIGURACIÓN DE CORS (Cross-Origin Resource Sharing)
+# ========================================================================
+# El CORS es un mecanismo de seguridad de los navegadores. Sirve para permitir
+# que un frontend (ej. React en el puerto 5173) pueda hacer peticiones a este
+# backend (que está en el puerto 8080). Sin esto, el navegador bloquea la conexión.
 cors:
   paths:
+    # Define a qué rutas del backend se le aplicarán estas reglas de CORS (en este caso, a todo lo que empiece con /api)
     - "path-pattern": "/api"
+      # Lista de orígenes (URLs del frontend) a los que se les permite acceder a esta API.
+      # Se incluyen las URLs típicas de desarrollo de Vite/React.
       "allow-origins": ["http://localhost:5173", "https://localhost:5173", "http://127.0.0.1:5173"]
+      # Lista de métodos HTTP que el frontend tiene permitido usar.
+      # OPTIONS es obligatorio para que funcionen las peticiones "preflight" del navegador.
       "allow-methods": ["PUT", "DELETE", "GET", "POST", "OPTIONS"]
+      # Lista de cabeceras que el frontend puede enviar al backend.
+      # Content-Type es para enviar JSON, y Authorization es por si se envían tokens (JWT).
       "allow-headers": ["Content-Type", "Authorization"]
-    - "path-pattern": "/api/users"
-      "allow-origins": ["http://localhost:5173", "https://localhost:5173", "http://127.0.0.1:5173"]
-      "allow-methods": ["GET", "HEAD", "OPTIONS", "POST"]
-      "allow-headers": ["Content-Type", "Authorization"]
-    - "path-pattern": "/api/comments"
-    - "allow-origins": [ "http://localhost:5173", "https://localhost:5173", "http://127.0.0.1:5173" ]
-    - "allow-methods": [ "GET", "HEAD", "OPTIONS", "POST" ]
-    - "allow-headers": [ "Content-Type", "Authorization" ]
 
-
+# ========================================================================
+# CONFIGURACIÓN DE LOGS (Registro de eventos del sistema)
+# ========================================================================
 logging:
   level:
+    # TRACE es el nivel máximo de detalle. Muestra absolutamente todo lo que hace el cliente de base de datos de Helidon.
     io.helidon.dbclient: TRACE
+    # Muestra los eventos internos del driver de PostgreSQL a nivel profundo.
     org.postgresql: TRACE
+    # DEBUG muestra información útil sobre el "pool" de conexiones de Hikari (apertura y cierre de conexiones a la BD).
     com.zaxxer.hikari: DEBUG
+
+# ========================================================================
+# CONFIGURACIÓN DE LA BASE DE DATOS (Helidon DB Client)
+# ========================================================================
 db:
   statements:
+    # Si está en true, imprimirá en la consola las sentencias SQL (SELECT, INSERT, etc.) que se ejecutan. Muy útil para debug.
     log-enable: true
+  
+  # Indica que la fuente de datos es una base de datos relacional usando el estándar JDBC de Java.
   source: jdbc
 
   connection:
+    # La cadena de conexión a la base de datos PostgreSQL. 
+    # Indica el protocolo (jdbc:postgresql), el host (localhost), el puerto (5432) y la base de datos (posts).
     url: jdbc:postgresql://localhost:5432/posts
+    # Usuario de la base de datos.
     username: DBA3
+    # Contraseña del usuario de la base de datos.
     password: 71219500
 
+    # ================= CONFIGURACIÓN DEL POOL DE CONEXIONES =================
+    # Un "Pool" mantiene varias conexiones a la BD abiertas en memoria para 
+    # no tener que conectarse y desconectarse con cada petición, lo que hace la app más rápida.
+    
+    # Nombre identificativo del pool de conexiones para los logs.
     poolName: HelidonPool
+    # Número máximo de conexiones simultáneas a la base de datos (si hay más peticiones, se pondrán en cola).
     maximumPoolSize: 10
+    # Número mínimo de conexiones "ociosas" (sin usar) que se mantendrán vivas esperando a ser usadas.
     minimumIdle: 2
+    # Tiempo máximo en milisegundos (30 seg) que esperará una petición para conseguir una conexión libre antes de dar error de Timeout.
     connectionTimeout: 30000
 
-
   logging:
+    # Nivel de detalle de los logs específicamente para el módulo de Base de Datos.
+    # FINEST es el equivalente a TRACE en Java Util Logging (el máximo nivel de detalle).
     level: FINEST
